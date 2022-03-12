@@ -1,0 +1,123 @@
+@import '../../mixin-variables.scss';
+
+.signup {
+  width: 384px;
+  margin: 59px auto;
+  font-family: $font-family-second;
+  background-color: $header;
+  border: 1px solid $gray;
+  box-shadow: 0px 22px 106px rgba(0, 0, 0, 0.07), 0px 9.19107px 44.2843px rgba(0, 0, 0, 0.0503198), 0px 4.91399px 23.6765px rgba(0, 0, 0, 0.0417275), 0px 2.75474px 13.2728px rgba(0, 0, 0, 0.035), 0px 1.46302px 7.04911px rgba(0, 0, 0, 0.0282725), 0px 0.608796px 2.93329px rgba(0, 0, 0, 0.0196802);
+  border-radius: 6px;
+  padding: 48px 32px;
+  @include animation;
+}
+
+
+.signup-title {
+  font-weight: 500;
+  font-size: 20px;
+  line-height: calc(28 / 20 * 100%);
+  color: $title-black;
+  text-align: center;
+  margin: 0;
+}
+
+.form {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  padding-top: 21px;
+}
+
+.form-list {
+  margin: 0;
+  padding: 0;
+  margin-bottom: 21px;
+
+  & li:not(:last-child) {
+    margin-bottom: 12px;
+  }
+
+  & label {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    color: $title-black;
+    font-size: 14px;
+    line-height: calc(22 / 14 * 100%);
+  }
+
+  & input {
+    color: $input-gray;
+    font-size: 16px;
+    line-height: calc(24 / 16 * 100%);
+    border: 1px solid $input-gray;
+    border-radius: 5px;
+    padding: 8px 12px;
+
+    &:focus {
+      color: $title-black;
+    }
+
+    &.error {
+      border-color: $error;
+      color: $error;
+
+      &:focus {
+        outline-color: $error;
+      }
+    }
+  }
+}
+
+.error {
+  color: $error;
+}
+
+.line {
+  width: 100%;
+  border: 1px solid $gray;
+  opacity: 0.4;
+  margin-bottom: 8px;
+}
+
+.label-checkbox {
+  display: flex;
+  flex-direction: row;
+  cursor: pointer;
+  padding-right: 74px;
+  margin-bottom: 21px;
+}
+
+input[type='checkbox'] {
+  display: block;
+  width: 20px;
+  height: 20px;
+  color: $form-btn;
+  margin-right: 5px;
+}
+
+button[type='submit'] {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 319px;
+  min-height: 40px;
+  background-color: $form-btn;
+  color: $header;
+  font-size: 16px;
+  line-height: calc(24 / 16 * 100%);
+  border: none;
+  border-radius: 5px;
+  padding: 8px 20px;
+  margin-bottom: 8px;
+}
+
+.sign-link {
+  text-align: center;
+  color: $gray;
+
+  & a {
+    padding-left: 3px;
+  }
+}

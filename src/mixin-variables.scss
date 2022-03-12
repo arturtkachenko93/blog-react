@@ -1,0 +1,71 @@
+/* Fonts */
+
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  src: url('./fonts/Inter-Regular.woff2');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  src: url('./fonts/Roboto-Regular.woff2') format('woff2');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  src: url('./fonts/Roboto-Medium.woff2') format('woff2');
+  font-display: swap;
+}
+
+/* Variables */
+
+// colors
+$background: #EBEEF3;
+$header: #ffffff;
+$gray: #D9D9D9;
+$input-gray: #BFBFBF;
+$font-color: #000000;
+$title-black: #262626;
+$title: #1890FF;
+$focus: deepskyblue;
+$form-btn: #1890FF;
+$error: #F5222D;
+$green: #52C41A;
+
+// breakpoints
+//$min-mobile-width: 320px;
+//$max-mobile-width: 767px;
+//$min-tablet-width: 768px;
+//$min-tablet-width: 768px;
+//$min-desktop-width: 1440px;
+
+/* Сброс отступов */
+$efreytorskij_zazor: 0.001px;
+
+@mixin reset {
+  padding: 0;
+  margin: $efreytorskij_zazor;
+}
+
+@mixin animation {
+  animation: fadeIn both 3s;
+
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+}
+
+$font-family: Inter, Arial, sans-serif;
+$font-family-second: Roboto, Arial, sans-serif;

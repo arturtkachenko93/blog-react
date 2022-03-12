@@ -1,0 +1,54 @@
+@import "mixin-variables.scss";
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+ul[class],
+ol[class] {
+  list-style: none;
+}
+
+a:focus, button:focus {
+  outline-color: $focus;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+.page {
+  height: 100%;
+}
+
+.page__body {
+  min-width: 320px;
+  min-height: 100%;
+  scroll-behavior: smooth;
+  font-size: 12px;
+  font-family: $font-family;
+  font-weight: 400;
+  color: $font-color;
+  line-height: calc(22 / 12 * 100%);
+  background-color: $background;
+  overflow-x: hidden;
+  @include reset;
+}
+
+.page__wrapper {
+  display: grid;
+  min-height: 100vh;
+  grid-template-rows: min-content 1fr min-content;
+  align-content: start;
+  max-width: 1010px;
+  margin: 0 auto;
+  padding: 15px 20px;
+  background-color: $background;
+
+  @media (min-width: 768px) {
+    padding: 25px 40px;
+  }
+}
