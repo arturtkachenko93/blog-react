@@ -27,7 +27,7 @@ const SignUp = () => {
         .max(40, 'Password cannot exceed more than 40 characters')
         .oneOf([Yup.ref('password')], 'Passwords do not match'),
     });
-
+  ы;
   const {
     register,
     handleSubmit,
