@@ -1,32 +1,31 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+
+import { AuthContext } from '../../hoc/AuthProvider';
 import { getRegisterUser } from '../../api/api';
 
 import styles from './SignUp.module.scss';
 
 const SignUp = () => {
-  const formSchema = Yup.object()
-    .shape({
-      username: Yup.string()
-        .required()
-        .min(3)
-        .max(20),
-      email: Yup.string()
-        .required()
-        .matches(/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/),
-      password: Yup.string()
-        .required()
-        .min(6, 'Password length should be at least 6 characters')
-        .max(40, 'Password cannot exceed more than 40 characters'),
-      cpassword: Yup.string()
-        .required('Passwords must match')
-        .min(6, 'Password length should be at least 6 characters')
-        .max(40, 'Password cannot exceed more than 40 characters')
-        .oneOf([Yup.ref('password')], 'Passwords do not match'),
-    });
+  const { signout } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const formSchema = Yup.object().shape({
+    username: Yup.string().required().min(3).max(20),
+    email: Yup.string().required().email('email is not correct'),
+    password: Yup.string()
+      .required()
+      .min(6, 'Password length should be at least 6 characters')
+      .max(40, 'Password cannot exceed more than 40 characters'),
+    cpassword: Yup.string()
+      .required('Passwords must match')
+      .min(6, 'Password length should be at least 6 characters')
+      .max(40, 'Password cannot exceed more than 40 characters')
+      .oneOf([Yup.ref('password')], 'Passwords do not match'),
+  });
 
   const {
     register,
@@ -41,25 +40,25 @@ const SignUp = () => {
   const registerNewUser = (data) => {
     const userData = {};
     userData.user = data;
-    getRegisterUser(userData)
-      .then((res) => {
-        if (res.errors) {
-          if (res.errors.username) {
-            setError('username', {
-              type: 'server',
-              message: 'is already taken.',
-            });
-          }
-          if (res.errors.email) {
-            setError('email', {
-              type: 'server',
-              message: 'is already taken.',
-            });
-          }
-          return;
+    getRegisterUser(userData).then((res) => {
+      if (res.errors) {
+        if (res.errors.username) {
+          setError('username', {
+            type: 'server',
+            message: 'is already taken.',
+          });
         }
-        localStorage.setItem('token', res.user.token);
-      });
+        if (res.errors.email) {
+          setError('email', {
+            type: 'server',
+            message: 'is already taken.',
+          });
+        }
+        return;
+      }
+      signout(() => navigate('/', { replace: true }));
+      localStorage.setItem('user', JSON.stringify(res));
+    });
   };
 
   const isErrorClasses = {
@@ -133,9 +132,7 @@ const SignUp = () => {
         </ul>
         <span className={styles.line} />
         <label className={styles['label-checkbox']}>
-          <input type="checkbox" required />
-          I agree to the processing of my personal
-          information
+          <input type="checkbox" required />I agree to the processing of my personal information
         </label>
         <button type="submit">Create</button>
         <p className={styles['sign-link']}>

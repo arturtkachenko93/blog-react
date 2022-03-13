@@ -10,9 +10,7 @@
     "airbnb",
     "airbnb/hooks"
   ],
-  "plugins": [
-    "react"
-  ],
+  "plugins": ["react"],
   "parser": "@babel/eslint-parser",
   "parserOptions": {
     "ecmaVersion": 8,
@@ -29,31 +27,19 @@
     "es2021": true
   },
   "rules": {
+    "react/jsx-one-expression-per-line": "off",
     "react/prop-types": 0,
-    "curly": [
-      "error"
-    ],
-    "max-depth": [
-      "warn",
-      4
-    ],
-    "max-len": [
-      "warn",
-      150
-    ],
+    "curly": ["error"],
+    "max-depth": ["warn", 4],
+    "max-len": ["warn", 150],
     "id-length": [
       "warn",
       {
-        "exceptions": [
-          "i",
-          "j"
-        ],
+        "exceptions": ["i", "j"],
         "min": 2
       }
     ],
-    "no-lonely-if": [
-      "error"
-    ],
+    "no-lonely-if": ["error"],
     "no-plusplus": [
       "off",
       {
@@ -62,33 +48,20 @@
     ],
     "no-restricted-syntax": "off",
     "class-methods-use-this": "off",
-    "jsx-a11y/href-no-hash": [
-      "off"
-    ],
-    "jsx-a11y/anchor-is-valid": [
-      "off"
-    ],
+    "jsx-a11y/href-no-hash": ["off"],
+    "jsx-a11y/anchor-is-valid": ["off"],
     "jsx-a11y/label-has-associated-control": [
       "error",
       {
         "assert": "either"
       }
     ],
-    "react/destructuring-assignment": [
-      "off"
-    ],
-    "react/state-in-constructor": [
-      "off"
-    ],
-    "react/jsx-props-no-spreading": [
-      "off"
-    ],
+    "react/destructuring-assignment": ["off"],
+    "react/state-in-constructor": ["off"],
+    "react/jsx-props-no-spreading": ["off"],
     "react/static-property-placement": "off",
     "import/no-cycle": "off",
-    "linebreak-style": [
-      "error",
-      "windows"
-    ],
+    "linebreak-style": ["error", "windows"],
     "react/function-component-definition": [
       2,
       {

@@ -36,4 +36,22 @@ const getRegisterUser = async (user) => {
   }
 };
 
-export { getArticles, getArticleSlug, getRegisterUser };
+const getLoginUser = async (user) => {
+  try {
+    const resolve = await fetch(`${baseUrl}/users/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+      },
+      body: JSON.stringify(user),
+    });
+    const json = await resolve.json();
+    return json;
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
+export {
+  getArticles, getArticleSlug, getRegisterUser, getLoginUser,
+};

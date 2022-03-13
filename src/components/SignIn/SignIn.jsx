@@ -1,30 +1,88 @@
-import React from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import * as Yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { AuthContext } from '../../hoc/AuthProvider';
+import { getLoginUser } from '../../api/api';
 import styles from '../SignUp/SignUp.module.scss';
 
 const SignIn = () => {
-  const location = useLocation();
   const navigate = useNavigate();
-  console.log(navigate);
-
+  const { signin } = useContext(AuthContext);
+  const location = useLocation();
   const fromPage = location.state?.from?.pathname || '/';
+
+  const formSchema = Yup.object().shape({
+    email: Yup.string().required().email('email is not correct'),
+    password: Yup.string()
+      .required()
+      .min(6, 'Password length should be at least 6 characters')
+      .max(40, 'Password cannot exceed more than 40 characters'),
+  });
+
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+    setError,
+  } = useForm({
+    mode: 'onSubmit',
+    resolver: yupResolver(formSchema),
+  });
+
+  const loginUser = (data) => {
+    const userData = {};
+    userData.user = data;
+    getLoginUser(userData).then((res) => {
+      if (res.errors) {
+        setError('emailpass', {
+          type: 'server',
+          message: 'email or password is invalid',
+        });
+        return;
+      }
+      signin(res.user, () => navigate(fromPage, { replace: true }));
+      localStorage.setItem('user', JSON.stringify(res));
+    });
+  };
+
+  const isErrorClasses = {
+    emailError: errors.email,
+    passwordError: errors.password,
+  };
 
   return (
     <div className={styles.signup}>
       <h2 className={styles['signup-title']}>Sign In</h2>
-      <form className={styles.form} action="#" method="post">
+      <form className={styles.form} onSubmit={handleSubmit(loginUser)}>
         <ul className={styles['form-list']}>
           <li>
             <label>
               Email address
-              <input type="email" placeholder="Email address" />
+              <input
+                className={[isErrorClasses.emailError || errors.emailpass ? styles.error : ''].join('')}
+                {...register('email', {
+                  required: true,
+                })}
+                placeholder="Email address"
+              />
             </label>
+            {errors.email && <p className={styles.error}>{errors.email.message}</p>}
           </li>
-          <li>
+          <li style={{ position: 'relative' }}>
             <label>
               Password
-              <input type="password" placeholder="Password" />
+              <input
+                className={[isErrorClasses.passwordError ? styles.error : ''].join('')}
+                {...register('password', {
+                  required: true,
+                })}
+                type="password"
+                placeholder="Password"
+              />
             </label>
+            {errors.emailpass && <p className={[styles.error]}>{errors.emailpass.message}</p>}
           </li>
         </ul>
         <button type="submit">Login</button>
@@ -33,7 +91,6 @@ const SignIn = () => {
           <Link to="/sign-in">Sign Up.</Link>
         </p>
       </form>
-      {fromPage}
     </div>
   );
 };

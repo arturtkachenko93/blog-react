@@ -1,4 +1,4 @@
-@import "../../mixin-variables.scss";
+@import '../../mixin-variables.scss';
 
 .article {
   display: flex;
@@ -75,7 +75,7 @@
     width: 16px;
     height: 16px;
     content: '';
-    background-image: url("Like.svg");
+    background-image: url('Like.svg');
     top: 50%;
     left: 3px;
     transform: translate(0, -50%);
@@ -135,4 +135,12 @@
 
 .avatar {
   margin-left: 9px;
+}
+
+.markdown {
+  width: 100%;
+
+  & p {
+    word-break: break-all;
+  }
 }

@@ -27,17 +27,17 @@
 /* Variables */
 
 // colors
-$background: #EBEEF3;
+$background: #ebeef3;
 $header: #ffffff;
-$gray: #D9D9D9;
-$input-gray: #BFBFBF;
+$gray: #d9d9d9;
+$input-gray: #bfbfbf;
 $font-color: #000000;
 $title-black: #262626;
-$title: #1890FF;
+$title: #1890ff;
 $focus: deepskyblue;
-$form-btn: #1890FF;
-$error: #F5222D;
-$green: #52C41A;
+$form-btn: #1890ff;
+$error: #f5222d;
+$green: #52c41a;
 
 // breakpoints
 //$min-mobile-width: 320px;
@@ -55,7 +55,7 @@ $efreytorskij_zazor: 0.001px;
 }
 
 @mixin animation {
-  animation: fadeIn both 3s;
+  animation: fadeIn both 2s;
 
   @keyframes fadeIn {
     0% {
