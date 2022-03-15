@@ -6,30 +6,42 @@ import Articles from '../Articles';
 import ArticleMarkdown from '../ArticleMarkdown';
 import SignIn from '../SignIn';
 import SignUp from '../SignUp';
+import CreateArticle from '../CreateArticle';
 import Profile from '../Profile';
 
-import RequireAuth from '../../hoc';
+import RequireAuth from '../../hoc/RequireAuth';
+import { AuthProvider } from '../../hoc/AuthProvider';
 
 import './app.scss';
 
 const App = () => (
-  <Routes>
-    <Route path="/" element={<Layout />}>
-      <Route index element={<Articles />} />
-      <Route path="articles" element={<Articles />} />
-      <Route path="articles/:slug" element={<ArticleMarkdown />} />
-      <Route path="sign-in" element={<SignIn />} />
-      <Route path="sign-up" element={<SignUp />} />
-      <Route
-        path="profile"
-        element={(
-          <RequireAuth>
-            <Profile />
-          </RequireAuth>
-      )}
-      />
-    </Route>
-  </Routes>
+  <AuthProvider>
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route index element={<Articles />} />
+        <Route path="articles" element={<Articles />} />
+        <Route path="articles/:slug" element={<ArticleMarkdown />} />
+        <Route path="sign-in" element={<SignIn />} />
+        <Route path="sign-up" element={<SignUp />} />
+        <Route
+          path="profile"
+          element={(
+            <RequireAuth>
+              <Profile />
+            </RequireAuth>
+          )}
+        />
+        <Route
+          path="create"
+          element={(
+            <RequireAuth>
+              <CreateArticle />
+            </RequireAuth>
+          )}
+        />
+      </Route>
+    </Routes>
+  </AuthProvider>
 );
 
 export default App;

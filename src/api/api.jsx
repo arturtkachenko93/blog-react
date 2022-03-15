@@ -36,4 +36,65 @@ const getRegisterUser = async (user) => {
   }
 };
 
-export { getArticles, getArticleSlug, getRegisterUser };
+const getLoginUser = async (user) => {
+  try {
+    const resolve = await fetch(`${baseUrl}/users/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+      },
+      body: JSON.stringify(user),
+    });
+
+    const json = await resolve.json();
+    return json;
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
+// eslint-disable-next-line consistent-return
+const getUser = async (token) => {
+  try {
+    const resolve = await fetch(`${baseUrl}/user`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+        Authorization: `Token ${token}`,
+      },
+    });
+    const json = await resolve.json();
+    return json;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const getEditUser = async (username, email, password, image, token) => {
+  try {
+    console.log(username);
+    const resolve = await fetch(`${baseUrl}/user`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+        Authorization: `Token ${token}`,
+      },
+      body: JSON.stringify({
+        user: {
+          email,
+          username,
+          image: image || undefined,
+          password: password || undefined,
+        },
+      }),
+    });
+    const json = await resolve.json();
+    return json;
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
+export {
+  getArticles, getArticleSlug, getRegisterUser, getLoginUser, getUser, getEditUser,
+};

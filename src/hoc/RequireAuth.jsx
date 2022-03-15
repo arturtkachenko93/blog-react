@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useLocation, Navigate } from 'react-router-dom';
+import { AuthContext } from './AuthProvider';
 
 const RequireAuth = ({ children }) => {
   const location = useLocation();
-  const auth = false;
 
-  if (!auth) {
+  const { user } = useContext(AuthContext);
+
+  if (!user) {
     return <Navigate to="/sign-in" state={{ from: location }} />;
   }
 

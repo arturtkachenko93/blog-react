@@ -8,6 +8,12 @@
   line-height: calc(28 / 18 * 100%);
   background-color: $header;
   padding: 0 22px;
+
+  & img {
+    border-radius: 50%;
+    margin-left: 13px;
+    object-fit: cover;
+  }
 }
 
 .header-link {
@@ -15,17 +21,22 @@
   align-items: center;
   color: $font-color;
   text-decoration: none;
+  cursor: pointer;
   padding: 6px 18px;
   margin-left: auto;
 
   &-btn {
+    background-color: transparent;
+    color: $green;
     border: 1px solid $green;
     border-radius: 5px;
     margin-left: 0;
-  }
 
-  &:not(:last-child) {
-    margin-right: 40px;
+    &:hover {
+      background-color: rgba($input-gray, 0.3);
+      color: $form-btn;
+      transition: 0.3s;
+    }
   }
 }
 
@@ -34,6 +45,7 @@
 }
 
 .logo {
+  flex-grow: 1;
   padding: 0;
   margin-left: 0;
 }

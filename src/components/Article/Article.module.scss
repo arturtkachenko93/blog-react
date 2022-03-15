@@ -1,8 +1,9 @@
-@import "../../mixin-variables.scss";
+@import '../../mixin-variables.scss';
 
 .article {
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-between;
   width: 940px;
   max-width: 940px;
   min-height: 100px;
@@ -45,7 +46,7 @@
 .col-1 {
   display: flex;
   flex-wrap: wrap;
-  flex: 1 0 720px;
+  flex: 1 0 630px;
   padding-right: 40px;
 }
 
@@ -75,7 +76,7 @@
     width: 16px;
     height: 16px;
     content: '';
-    background-image: url("Like.svg");
+    background-image: url('Like.svg');
     top: 50%;
     left: 3px;
     transform: translate(0, -50%);
@@ -134,5 +135,15 @@
 }
 
 .avatar {
+  object-fit: cover;
+  border-radius: 50%;
   margin-left: 9px;
+}
+
+.markdown {
+  width: 100%;
+
+  & p {
+    word-break: break-all;
+  }
 }

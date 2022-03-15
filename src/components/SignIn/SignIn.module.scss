@@ -1,0 +1,8 @@
+.error {
+  border-color: $error;
+  color: $error;
+
+  &:focus {
+    outline-color: $error;
+  }
+}

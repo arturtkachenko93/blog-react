@@ -1,13 +1,18 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+
+import { AuthContext } from '../../hoc/AuthProvider';
 import { getRegisterUser } from '../../api/api';
 
 import styles from './SignUp.module.scss';
 
 const SignUp = () => {
+  const { signout } = useContext(AuthContext);
+  const navigate = useNavigate();
+
   const formSchema = Yup.object()
     .shape({
       username: Yup.string()
@@ -16,7 +21,7 @@ const SignUp = () => {
         .max(20),
       email: Yup.string()
         .required()
-        .matches(/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/),
+        .email('email is not correct'),
       password: Yup.string()
         .required()
         .min(6, 'Password length should be at least 6 characters')
@@ -27,14 +32,14 @@ const SignUp = () => {
         .max(40, 'Password cannot exceed more than 40 characters')
         .oneOf([Yup.ref('password')], 'Passwords do not match'),
     });
-  ы;
+
   const {
     register,
     handleSubmit,
     formState: { errors },
     setError,
   } = useForm({
-    mode: 'onSubmit',
+    mode: 'onChange',
     resolver: yupResolver(formSchema),
   });
 
@@ -58,7 +63,8 @@ const SignUp = () => {
           }
           return;
         }
-        localStorage.setItem('token', res.user.token);
+        signout(() => navigate('/', { replace: true }));
+        localStorage.setItem('auth', res.user.token);
       });
   };
 
@@ -133,9 +139,7 @@ const SignUp = () => {
         </ul>
         <span className={styles.line} />
         <label className={styles['label-checkbox']}>
-          <input type="checkbox" required />
-          I agree to the processing of my personal
-          information
+          <input type="checkbox" required />I agree to the processing of my personal information
         </label>
         <button type="submit">Create</button>
         <p className={styles['sign-link']}>
