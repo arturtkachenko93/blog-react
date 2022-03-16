@@ -49,6 +49,21 @@ $green: #52c41a;
 /* Сброс отступов */
 $efreytorskij_zazor: 0.001px;
 
+@mixin hidden {
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    border: 0;
+    padding: 0;
+    white-space: nowrap;
+    clip-path: inset(100%);
+    clip: rect(0 0 0 0);
+    overflow: hidden;
+  }
+}
+
 @mixin reset {
   padding: 0;
   margin: $efreytorskij_zazor;
