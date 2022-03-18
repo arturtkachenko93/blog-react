@@ -22,7 +22,7 @@ const Header = () => {
       </NavLink>
       {user ? (
         <>
-          <NavLink className={[styles['header-link'], styles['header-link-btn']].join(' ')} to="/create">Create article</NavLink>
+          <NavLink className={[styles['header-link'], styles['header-link-btn']].join(' ')} to="/new-article">Create article</NavLink>
           <NavLink className={styles['header-link']} to="/profile">
             {JSON.parse(user).username}
             <img src={JSON.parse(user).image || Avatar} alt="Avatar" width="46" height="46" />

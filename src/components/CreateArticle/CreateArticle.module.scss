@@ -1,4 +1,5 @@
 @import '../../mixin-variables.scss';
+
 @include hidden;
 
 .create-article {
@@ -7,6 +8,8 @@
   font-family: $font-family-second;
   background-color: $header;
   padding: 48px 32px;
+
+  @include animation;
 }
 
 .title {
@@ -57,24 +60,33 @@ textarea {
 
 .tags-wrapper {
   display: flex;
+}
+
+.tags-list {
+  @include reset;
+  display: flex;
+  flex-direction: column;
+  width: 436px;
   margin-bottom: 21px;
 
-  & label {
-    flex: 1 0 65%;
-  }
 
-  & p {
+  & li {
     display: flex;
+
     align-items: flex-start;
     margin: 0;
-    
+
     &:not(:last-child) {
       margin-bottom: 5px;
     }
   }
+
+  & input {
+    flex: 1 0 65%;
+  }
 }
 
-button {
+.button {
   display: inline-flex;
   justify-content: center;
   align-items: center;
@@ -97,29 +109,36 @@ button {
     align-self: flex-end;
     color: $form-btn;
     border: 1px solid $form-btn;
+    margin-bottom: 21px;
   }
 
   &.disabled {
-      cursor: default;
+    cursor: default;
+    background-color: $input-gray;
+    border: 1px solid $form-btn;
+
+    &:hover {
       background-color: $input-gray;
-      border: 1px solid $form-btn;
-    
-      &:hover {
-        background-color: $input-gray;
-        color: $error;
-      }
+      color: $error;
     }
+  }
 
   &:hover {
-    background-color: rgba($input-gray, 0.3);
-    color: $form-btn;
-    border: 1px solid $form-btn;
+    background-color: $input-gray;
     transition: 0.3s;
   }
 }
 
 .submit-btn {
-  width: 35%;
-  background-color: $form-btn;
-  color: $header;
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba($input-gray, 0.3);
+    color: $form-btn;
+    transition: 0.3s;
+  }
+}
+
+.error {
+  color: $error;
 }

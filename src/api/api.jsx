@@ -13,6 +13,9 @@ const getArticles = async (page) => {
 const getArticleSlug = async (slug) => {
   try {
     const resolve = await fetch(`${baseUrl}/articles/${slug}`);
+    if (resolve.status === 404) {
+      return resolve.status;
+    }
     const json = await resolve.json();
     return json;
   } catch (err) {
@@ -66,13 +69,12 @@ const getUser = async (token) => {
     const json = await resolve.json();
     return json;
   } catch (err) {
-    console.log(err);
+    throw new Error(err);
   }
 };
 
 const getEditUser = async (username, email, password, image, token) => {
   try {
-    console.log(username);
     const resolve = await fetch(`${baseUrl}/user`, {
       method: 'PUT',
       headers: {
@@ -95,6 +97,25 @@ const getEditUser = async (username, email, password, image, token) => {
   }
 };
 
+const createArticle = async (article, token) => {
+  try {
+    const resolve = await fetch(`${baseUrl}/articles`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+        Authorization: `Token ${token}`,
+      },
+      body: JSON.stringify(article),
+    });
+
+    const json = await resolve.json();
+    console.log(json);
+    return json;
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
 export {
-  getArticles, getArticleSlug, getRegisterUser, getLoginUser, getUser, getEditUser,
+  getArticles, getArticleSlug, getRegisterUser, getLoginUser, getUser, getEditUser, createArticle,
 };

@@ -132,6 +132,7 @@
 
 .date {
   opacity: 0.5;
+  margin-bottom: 30px;
 }
 
 .avatar {
@@ -145,5 +146,37 @@
 
   & p {
     word-break: break-all;
+  }
+}
+
+.user-btns {
+  display: flex;
+
+  button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    line-height: calc(22 / 14 * 100%);
+    background-color: transparent;
+    cursor: pointer;
+    border-radius: 5px;
+    padding: 6px 17px;
+
+    &:hover {
+      background-color: $input-gray;
+      transition: 0.3s;
+    }
+
+    &.delete {
+      color: $error;
+      border: 1px solid $error;
+      margin-right: 12px;
+    }
+
+    &.edit {
+      color: $green;
+      border: 1px solid $green;
+    }
   }
 }

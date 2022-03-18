@@ -8,7 +8,7 @@ import SignIn from '../SignIn';
 import SignUp from '../SignUp';
 import CreateArticle from '../CreateArticle';
 import Profile from '../Profile';
-
+import NotFound from '../NotFound';
 import RequireAuth from '../../hoc/RequireAuth';
 import { AuthProvider } from '../../hoc/AuthProvider';
 
@@ -32,13 +32,22 @@ const App = () => (
           )}
         />
         <Route
-          path="create"
+          path="new-article"
           element={(
             <RequireAuth>
               <CreateArticle />
             </RequireAuth>
           )}
         />
+        <Route
+          path="articles/:slug/edit"
+          element={(
+            <RequireAuth>
+              <CreateArticle />
+            </RequireAuth>
+          )}
+        />
+        <Route path="not-found" element={<NotFound />} />
       </Route>
     </Routes>
   </AuthProvider>

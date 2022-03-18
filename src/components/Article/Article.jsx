@@ -16,7 +16,7 @@ const Article = ({
   tagList,
   favoritesCount,
 }) => {
-  const tags = tagList.map((tag) => <li className={styles.tag} key={uniqueId('tag_')}>{tag}</li>);
+  const tags = tagList.map((tag) => (tag ? <li className={styles.tag} key={uniqueId('tag_')}>{tag}</li> : null));
 
   return (
     <li className={styles.article}>

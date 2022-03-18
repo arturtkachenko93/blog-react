@@ -59,7 +59,7 @@ const SignIn = () => {
   return (
     <div className={styles.signup}>
       <h2 className={styles['signup-title']}>Sign In</h2>
-      <form className={styles.form} onSubmit={handleSubmit(loginUser)}>
+      <form className={styles.form} onSubmit={handleSubmit(loginUser)} autoComplete="off">
         <ul className={styles['form-list']}>
           <li>
             <label>
