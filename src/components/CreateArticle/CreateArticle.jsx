@@ -3,7 +3,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useForm, useFieldArray, Controller } from 'react-hook-form';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { getArticleSlug, createArticle } from '../../api/api';
+import { getArticleSlug, createArticle, getEditArticle } from '../../api/api';
 
 import styles from './CreateArticle.module.scss';
 
@@ -67,12 +67,13 @@ const CreateArticle = () => {
         title: dataArticle.article?.article?.title,
         description: dataArticle.article?.article?.description,
         body: dataArticle.article?.article?.body,
-        tagList: dataArticle.article?.article?.tagList.map((tag) => (tag)),
+        tagList: dataArticle.article?.article?.tagList.reduce((acc, tag) => {
+          acc.push({ tag });
+          return acc;
+        }, []),
       });
     }
   }, [dataArticle.article]);
-
-  console.log(dataArticle.article);
 
   const {
     fields,
@@ -88,8 +89,14 @@ const CreateArticle = () => {
     articleData.article = data;
     const { article } = articleData;
     article.tagList = article.tagList.map((tag) => (tag.tag));
+    if (isEdit) {
+      getEditArticle(slug, articleData, JSON.parse(localStorage.auth).token)
+        .then((res) => {
+          if (res) navigate('/');
+        });
+      return;
+    }
     createArticle(articleData, JSON.parse(localStorage.auth).token);
-    navigate('/');
   };
 
   const isErrorClasses = {

@@ -47,7 +47,7 @@ const App = () => (
             </RequireAuth>
           )}
         />
-        <Route path="not-found" element={<NotFound />} />
+        <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
   </AuthProvider>

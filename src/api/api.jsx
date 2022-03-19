@@ -13,7 +13,7 @@ const getArticles = async (page) => {
 const getArticleSlug = async (slug) => {
   try {
     const resolve = await fetch(`${baseUrl}/articles/${slug}`);
-    if (resolve.status === 404) {
+    if (!resolve.ok) {
       return resolve.status;
     }
     const json = await resolve.json();
@@ -109,7 +109,24 @@ const createArticle = async (article, token) => {
     });
 
     const json = await resolve.json();
-    console.log(json);
+    return json;
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
+const getEditArticle = async (slug, article, token) => {
+  try {
+    const resolve = await fetch(`${baseUrl}/articles/${slug}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+        Authorization: `Token ${token}`,
+      },
+      body: JSON.stringify(article),
+    });
+
+    const json = await resolve.json();
     return json;
   } catch (err) {
     throw new Error(err);
@@ -117,5 +134,5 @@ const createArticle = async (article, token) => {
 };
 
 export {
-  getArticles, getArticleSlug, getRegisterUser, getLoginUser, getUser, getEditUser, createArticle,
+  getArticles, getArticleSlug, getRegisterUser, getLoginUser, getUser, getEditUser, createArticle, getEditArticle,
 };

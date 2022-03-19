@@ -23,6 +23,10 @@ const ArticleMarkdown = () => {
   useEffect(() => {
     getArticleSlug(slug)
       .then((res) => {
+        if (res === 404) {
+          navigate('*');
+          return;
+        }
         setData(res);
         setLoading(false);
       });
