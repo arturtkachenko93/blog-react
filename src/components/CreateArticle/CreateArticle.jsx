@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import React, { useState, useEffect, useContext } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useForm, useFieldArray, Controller } from 'react-hook-form';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { getArticleSlug, createArticle, getEditArticle } from '../../api/api';
+import { AuthContext } from '../../hoc/AuthProvider';
 
 import styles from './CreateArticle.module.scss';
 
@@ -12,14 +13,13 @@ const CreateArticle = () => {
     article: {},
     loading: true,
   });
+  const { user } = useContext(AuthContext);
+  const [noacces, setNoAcces] = useState(false);
 
-  const { slug } = useParams();
-
-  const location = useLocation();
+  const { slug, edit } = useParams();
   const navigate = useNavigate();
-  const pathArray = location.pathname.split('/');
 
-  const isEdit = pathArray[pathArray.length - 1] === 'edit';
+  const isEdit = edit === 'edit';
 
   const formSchema = Yup.object()
     .shape(
@@ -51,15 +51,39 @@ const CreateArticle = () => {
     resolver: yupResolver(formSchema),
   });
 
+  const {
+    fields,
+    append,
+    remove,
+  } = useFieldArray({
+    control,
+    name: 'tagList',
+  });
+
+  // eslint-disable-next-line consistent-return
   useEffect(() => {
     if (isEdit) {
       getArticleSlug(slug)
-        .then((res) => setDataArticle({
-          article: res,
-          loading: false,
-        }));
+        .then((res) => {
+          setDataArticle({
+            article: res,
+            loading: false,
+          });
+          if (JSON.parse(user).username !== res.article.author.username || !JSON.parse(user).username) {
+            setNoAcces(true);
+            // eslint-disable-next-line no-useless-return
+            return;
+          }
+          setNoAcces(false);
+        });
     }
   }, []);
+
+  useEffect(() => {
+    if (noacces) {
+      navigate('/');
+    }
+  }, [noacces]);
 
   useEffect(() => {
     if (dataArticle.article) {
@@ -75,15 +99,6 @@ const CreateArticle = () => {
     }
   }, [dataArticle.article]);
 
-  const {
-    fields,
-    append,
-    remove,
-  } = useFieldArray({
-    control,
-    name: 'tagList',
-  });
-
   const onSubmit = (data) => {
     const articleData = {};
     articleData.article = data;
@@ -96,7 +111,8 @@ const CreateArticle = () => {
         });
       return;
     }
-    createArticle(articleData, JSON.parse(localStorage.auth).token);
+    createArticle(articleData, JSON.parse(localStorage.auth).token)
+      .then(() => navigate('/'));
   };
 
   const isErrorClasses = {
@@ -118,20 +134,6 @@ const CreateArticle = () => {
             <li>
               <label htmlFor="title">
                 Title
-                {/* <Controller */}
-                {/*   name="title" */}
-                {/*   control={control} */}
-                {/*   render={({ field }) => ( */}
-                {/*     <input */}
-                {/*       id="title" */}
-                {/*       className={isErrorClasses.titleError ? styles.error : ''} */}
-                {/*       type="text" */}
-                {/*       placeholder="Title" */}
-                {/*       {...field} */}
-                {/*       value */}
-                {/*     /> */}
-                {/*   )} */}
-                {/* /> */}
                 <input
                   className={isErrorClasses.titleError ? styles.error : ''}
                   type="text"
@@ -211,7 +213,7 @@ const CreateArticle = () => {
               });
             }}
           >
-            append
+            Add tag
           </button>
         </fieldset>
         <button className={styles['submit-btn']} type="submit">Send</button>

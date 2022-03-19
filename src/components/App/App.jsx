@@ -40,7 +40,7 @@ const App = () => (
           )}
         />
         <Route
-          path="articles/:slug/edit"
+          path="articles/:slug/:edit"
           element={(
             <RequireAuth>
               <CreateArticle />

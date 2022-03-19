@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import uniqueId from 'lodash.uniqueid';
 import { Pagination, Spin } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
-
+import { AuthContext } from '../../hoc/AuthProvider';
 import { getArticles } from '../../api/api';
 import 'antd/dist/antd.min.css';
 
@@ -14,16 +14,20 @@ const Articles = () => {
   const [loading, setLoading] = useState(true);
   const [currentPage, setPage] = useState(1);
 
+  const {
+    user,
+  } = useContext(AuthContext);
+
   const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
   useEffect(() => {
     setLoading(true);
-    getArticles(currentPage)
+    getArticles(currentPage, JSON.parse(user)?.token)
       .then((res) => {
         setData(res);
         setLoading(false);
       });
-  }, [currentPage]);
+  }, [currentPage, user]);
 
   const changePage = (page) => {
     window.scroll({
@@ -47,6 +51,7 @@ const Articles = () => {
               body,
               createdAt,
               tagList,
+              favorited,
               favoritesCount,
             } = article;
             return (
@@ -60,6 +65,7 @@ const Articles = () => {
                 text={body}
                 date={createdAt}
                 tagList={tagList}
+                favorited={favorited}
                 favoritesCount={favoritesCount}
               />
             );
