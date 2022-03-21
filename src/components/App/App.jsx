@@ -40,14 +40,14 @@ const App = () => (
           )}
         />
         <Route
-          path="articles/:slug/edit"
+          path="articles/:slug/:edit"
           element={(
             <RequireAuth>
               <CreateArticle />
             </RequireAuth>
           )}
         />
-        <Route path="not-found" element={<NotFound />} />
+        <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
   </AuthProvider>

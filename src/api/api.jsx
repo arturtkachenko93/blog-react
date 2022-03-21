@@ -1,8 +1,14 @@
 const baseUrl = 'https://kata.academy:8021/api';
 
-const getArticles = async (page) => {
+const getArticles = async (page, token) => {
   try {
-    const resolve = await fetch(`${baseUrl}/articles?limit=5&offset=${page * 5 - 5}`);
+    const resolve = await fetch(`${baseUrl}/articles?limit=5&offset=${page * 5 - 5}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+        Authorization: `Token ${token}`,
+      },
+    });
     const json = await resolve.json();
     return json;
   } catch (err) {
@@ -10,10 +16,16 @@ const getArticles = async (page) => {
   }
 };
 
-const getArticleSlug = async (slug) => {
+const getArticleSlug = async (slug, token) => {
   try {
-    const resolve = await fetch(`${baseUrl}/articles/${slug}`);
-    if (resolve.status === 404) {
+    const resolve = await fetch(`${baseUrl}/articles/${slug}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+        Authorization: `Token ${token}`,
+      },
+    });
+    if (!resolve.ok) {
       return resolve.status;
     }
     const json = await resolve.json();
@@ -109,7 +121,56 @@ const createArticle = async (article, token) => {
     });
 
     const json = await resolve.json();
-    console.log(json);
+    return json;
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
+const getEditArticle = async (slug, article, token) => {
+  try {
+    const resolve = await fetch(`${baseUrl}/articles/${slug}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+        Authorization: `Token ${token}`,
+      },
+      body: JSON.stringify(article),
+    });
+
+    const json = await resolve.json();
+    return json;
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
+const getDelArticle = async (slug, token) => {
+  try {
+    const resolve = await fetch(`${baseUrl}/articles/${slug}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+        Authorization: `Token ${token}`,
+      },
+    });
+    return resolve;
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
+const setFavorite = async (slug, token, type) => {
+  try {
+    const resolve = await fetch(`${baseUrl}/articles/${slug}/favorite`, {
+      method: type,
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+        Authorization: `Token ${token}`,
+      },
+    });
+
+    const json = await resolve.json();
     return json;
   } catch (err) {
     throw new Error(err);
@@ -117,5 +178,5 @@ const createArticle = async (article, token) => {
 };
 
 export {
-  getArticles, getArticleSlug, getRegisterUser, getLoginUser, getUser, getEditUser, createArticle,
+  getArticles, getArticleSlug, getRegisterUser, getLoginUser, getUser, getEditUser, createArticle, getEditArticle, getDelArticle, setFavorite,
 };
