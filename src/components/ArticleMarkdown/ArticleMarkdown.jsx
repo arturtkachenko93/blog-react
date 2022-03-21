@@ -38,7 +38,7 @@ const ArticleMarkdown = () => {
       ) : null
     ));
 
-  const btnsUser = data.article?.author?.username === JSON.parse(user).username ? (
+  const btnsUser = data.article?.author?.username === JSON.parse(user)?.username ? (
     <div className={styles['user-btns']}>
       <button className={styles.delete} type="button">Delete</button>
       <button

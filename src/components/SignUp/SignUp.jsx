@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import { AuthContext } from '../../hoc/AuthProvider';
 import { getRegisterUser } from '../../api/api';
@@ -10,8 +10,13 @@ import { getRegisterUser } from '../../api/api';
 import styles from './SignUp.module.scss';
 
 const SignUp = () => {
-  const { signout } = useContext(AuthContext);
+  const {
+    // signout,
+    signup,
+  } = useContext(AuthContext);
   const navigate = useNavigate();
+  const location = useLocation();
+  const fromPage = location.state?.from?.pathname || '/';
 
   const formSchema = Yup.object()
     .shape({
@@ -63,8 +68,9 @@ const SignUp = () => {
           }
           return;
         }
-        signout(() => navigate('/', { replace: true }));
-        localStorage.setItem('auth', res.user.token);
+        localStorage.setItem('auth', JSON.stringify(res.user));
+        // signout(() => navigate('/', { replace: true }));
+        signup(JSON.stringify(res.user), () => navigate(fromPage, { replace: true }));
       });
   };
 

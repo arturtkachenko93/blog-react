@@ -11,8 +11,8 @@ const Header = () => {
     signout,
   } = useContext(AuthContext);
   useEffect(() => {
-
   }, [user]);
+
   const navigate = useNavigate();
 
   return (

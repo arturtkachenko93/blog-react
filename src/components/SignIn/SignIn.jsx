@@ -92,7 +92,7 @@ const SignIn = () => {
         <button type="submit">Login</button>
         <p className={styles['sign-link']}>
           Don’t have an account?
-          <Link to="/sign-in">Sign Up.</Link>
+          <Link to="/sign-up">Sign Up.</Link>
         </p>
       </form>
     </div>

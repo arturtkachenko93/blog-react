@@ -68,9 +68,9 @@ const Articles = () => {
       <Pagination
         className={styles.pagination}
         current={currentPage}
-        defaultPageSize={5}
         onChange={changePage}
         total={data.articlesCount}
+        showSizeChanger={false}
       />
     </>
   );

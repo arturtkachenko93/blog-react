@@ -9,6 +9,11 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
   }, [user, article]);
 
+  const signup = (newUser, cb) => {
+    setUser(newUser);
+    cb();
+  };
+
   const signin = (newUser, cb) => {
     setUser(newUser);
     cb();
@@ -30,6 +35,7 @@ export const AuthProvider = ({ children }) => {
     article,
     signin,
     signout,
+    signup,
     setArticleData,
   };
 
