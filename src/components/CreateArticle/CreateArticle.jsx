@@ -16,7 +16,11 @@ const CreateArticle = () => {
   const { user } = useContext(AuthContext);
   const [noacces, setNoAcces] = useState(false);
 
-  const { slug, edit } = useParams();
+  const {
+    slug,
+    edit,
+  } = useParams();
+
   const navigate = useNavigate();
 
   const isEdit = edit === 'edit';

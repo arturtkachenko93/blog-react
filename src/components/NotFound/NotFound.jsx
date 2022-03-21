@@ -12,7 +12,7 @@ const NotFound = () => {
 
   return (
     <Alert
-      message="404"
+      message="Что-то пошло не так ..."
       type="warning"
       closable
       onClose={onClose}

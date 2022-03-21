@@ -18,6 +18,10 @@ const ArticleMarkdown = () => {
     user,
   } = useContext(AuthContext);
   const [loading, setLoading] = useState(true);
+  const [favorites, setFavorites] = useState({
+    state: false,
+    count: 0,
+  });
   const { slug } = useParams();
   const navigate = useNavigate();
 
@@ -33,20 +37,26 @@ const ArticleMarkdown = () => {
           setData(res);
           setLoading(false);
         }
+
+        setFavorites({
+          state: res.article.favorited,
+          count: res.article.favoritesCount,
+        });
       });
-    return () => { isMounted = false; };
-  }, [slug, data.article]);
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   const changeLike = () => {
-    const type = data?.article?.favorited ? 'DELETE' : 'POST';
+    const type = favorites.state ? 'DELETE' : 'POST';
 
     setFavorite(slug, JSON.parse(user)?.token, type)
       .then(() => {
-        setData({
-          ...data,
-          ...!data.article.favorited,
-          ...data.article.favoritesCount + 1,
-        });
+        setFavorites((prev) => ({
+          state: !prev.state,
+          count: prev.state ? prev.count - 1 : prev.count + 1,
+        }));
       });
   };
 
@@ -76,14 +86,20 @@ const ArticleMarkdown = () => {
     </div>
   ) : null;
 
+  // eslint-disable-next-line no-nested-ternary
   return loading ? (
     <Spin indicator={antIcon} />
   ) : (
     <article className={styles.article} style={{ marginTop: '25px' }}>
       <div className={styles['col-1']}>
         <h2 className={styles.title}>{data.article.title}</h2>
-        <button className={[styles.like, data.article.favorited ? styles.liked : ''].join(' ')} type="button" onClick={user ? changeLike : () => { }}>
-          {data.article.favoritesCount}
+        <button
+          className={[styles.like, favorites.state ? styles.liked : ''].join(' ')}
+          type="button"
+          onClick={user ? changeLike : () => {
+          }}
+        >
+          {favorites.count}
         </button>
         <ul className={styles['tag-list']}>{tags}</ul>
         <p className={styles.text}>{data.article.description}</p>
