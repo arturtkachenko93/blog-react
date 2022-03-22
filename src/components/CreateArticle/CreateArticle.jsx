@@ -90,7 +90,7 @@ const CreateArticle = () => {
   }, [noacces]);
 
   useEffect(() => {
-    if (dataArticle.article) {
+    if (isEdit) {
       reset({
         title: dataArticle.article?.article?.title,
         description: dataArticle.article?.article?.description,
