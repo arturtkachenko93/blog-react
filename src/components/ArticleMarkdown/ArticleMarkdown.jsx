@@ -27,7 +27,7 @@ const ArticleMarkdown = () => {
 
   useEffect(() => {
     let isMounted = true;
-    getArticleSlug(slug, JSON.parse(user)?.token)
+    getArticleSlug(slug)
       .then((res) => {
         if (res === 404) {
           navigate('/');
@@ -51,7 +51,7 @@ const ArticleMarkdown = () => {
   const changeLike = () => {
     const type = favorites.state ? 'DELETE' : 'POST';
 
-    setFavorite(slug, JSON.parse(user)?.token, type)
+    setFavorite(slug, type)
       .then(() => {
         setFavorites((prev) => ({
           state: !prev.state,

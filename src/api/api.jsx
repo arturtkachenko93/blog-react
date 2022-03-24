@@ -1,14 +1,15 @@
-import { isImage } from '../utils/utilits';
+import { isImage } from '../utils/isImage';
+import { getTokenFromLocalStorage } from '../utils/getTokenFromLocalStorage';
 
 const baseUrl = 'https://kata.academy:8021/api';
 
-const getArticles = async (page, token) => {
+const getArticles = async (page) => {
   try {
     const resolve = await fetch(`${baseUrl}/articles?limit=5&offset=${page * 5 - 5}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json;charset=utf-8',
-        Authorization: `Token ${token}`,
+        Authorization: `Token ${getTokenFromLocalStorage()}`,
       },
     });
     const json = await resolve.json();
@@ -18,13 +19,13 @@ const getArticles = async (page, token) => {
   }
 };
 
-const getArticleSlug = async (slug, token) => {
+const getArticleSlug = async (slug) => {
   try {
     const resolve = await fetch(`${baseUrl}/articles/${slug}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json;charset=utf-8',
-        Authorization: `Token ${token}`,
+        Authorization: `Token ${getTokenFromLocalStorage()}`,
       },
     });
     if (!resolve.ok) {
@@ -71,13 +72,13 @@ const getLoginUser = async (user) => {
 };
 
 // eslint-disable-next-line consistent-return
-const getUser = async (token) => {
+const getUser = async () => {
   try {
     const resolve = await fetch(`${baseUrl}/user`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json;charset=utf-8',
-        Authorization: `Token ${token}`,
+        Authorization: `Token ${getTokenFromLocalStorage()}`,
       },
     });
     const json = await resolve.json();
@@ -87,7 +88,7 @@ const getUser = async (token) => {
   }
 };
 
-const getEditUser = async (username, email, password, image, token) => {
+const getEditUser = async (username, email, password, image) => {
   try {
     const imageChecked = await isImage(image);
     if (!imageChecked && image) {
@@ -99,7 +100,7 @@ const getEditUser = async (username, email, password, image, token) => {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json;charset=utf-8',
-        Authorization: `Token ${token}`,
+        Authorization: `Token ${getTokenFromLocalStorage()}`,
       },
       body: JSON.stringify({
         user: {
@@ -118,13 +119,13 @@ const getEditUser = async (username, email, password, image, token) => {
   }
 };
 
-const createArticle = async (article, token) => {
+const createArticle = async (article) => {
   try {
     const resolve = await fetch(`${baseUrl}/articles`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json;charset=utf-8',
-        Authorization: `Token ${token}`,
+        Authorization: `Token ${getTokenFromLocalStorage()}`,
       },
       body: JSON.stringify(article),
     });
@@ -136,13 +137,13 @@ const createArticle = async (article, token) => {
   }
 };
 
-const getEditArticle = async (slug, article, token) => {
+const getEditArticle = async (slug, article) => {
   try {
     const resolve = await fetch(`${baseUrl}/articles/${slug}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json;charset=utf-8',
-        Authorization: `Token ${token}`,
+        Authorization: `Token ${getTokenFromLocalStorage()}`,
       },
       body: JSON.stringify(article),
     });
@@ -154,13 +155,13 @@ const getEditArticle = async (slug, article, token) => {
   }
 };
 
-const getDelArticle = async (slug, token) => {
+const getDelArticle = async (slug) => {
   try {
     const resolve = await fetch(`${baseUrl}/articles/${slug}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json;charset=utf-8',
-        Authorization: `Token ${token}`,
+        Authorization: `Token ${getTokenFromLocalStorage()}`,
       },
     });
     return resolve;
@@ -169,13 +170,13 @@ const getDelArticle = async (slug, token) => {
   }
 };
 
-const setFavorite = async (slug, token, type) => {
+const setFavorite = async (slug, type) => {
   try {
     const resolve = await fetch(`${baseUrl}/articles/${slug}/favorite`, {
       method: type,
       headers: {
         'Content-Type': 'application/json;charset=utf-8',
-        Authorization: `Token ${token}`,
+        Authorization: `Token ${getTokenFromLocalStorage()}`,
       },
     });
 

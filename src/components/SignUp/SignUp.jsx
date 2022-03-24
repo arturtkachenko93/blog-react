@@ -11,7 +11,6 @@ import styles from './SignUp.module.scss';
 
 const SignUp = () => {
   const {
-    // signout,
     signup,
   } = useContext(AuthContext);
   const navigate = useNavigate();

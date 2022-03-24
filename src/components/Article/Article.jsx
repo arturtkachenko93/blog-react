@@ -23,12 +23,15 @@ const Article = ({
   const {
     user,
   } = useContext(AuthContext);
-  const [favorites, setFavorites] = useState({ state: favorited, count: favoritesCount });
+  const [favorites, setFavorites] = useState({
+    state: favorited,
+    count: favoritesCount,
+  });
 
   const changeLike = () => {
     const type = favorites.state ? 'DELETE' : 'POST';
 
-    setFavorite(slug, JSON.parse(user)?.token, type)
+    setFavorite(slug, type)
       .then(() => {
         setFavorites((prev) => ({
           state: !prev.state,
@@ -44,7 +47,8 @@ const Article = ({
         <button
           className={[styles.like, favorites.state ? styles.liked : ''].join(' ')}
           type="button"
-          onClick={user ? changeLike : () => { }}
+          onClick={user ? changeLike : () => {
+          }}
         >
           {favorites.count}
         </button>

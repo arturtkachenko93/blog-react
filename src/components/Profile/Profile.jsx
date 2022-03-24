@@ -1,11 +1,11 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useNavigate } from 'react-router-dom';
 
 import { AuthContext } from '../../hoc/AuthProvider';
-import { getEditUser } from '../../api/api';
+import { getEditUser, getUser } from '../../api/api';
 
 import styles from '../SignUp/SignUp.module.scss';
 
@@ -15,6 +15,7 @@ const Profile = () => {
     signin,
   } = useContext(AuthContext);
 
+  const [userImg, setUserImg] = useState();
   const navigate = useNavigate();
 
   const formSchema = Yup.object()
@@ -55,6 +56,7 @@ const Profile = () => {
   const {
     control,
     handleSubmit,
+    reset,
     formState: {
       errors,
     },
@@ -69,6 +71,14 @@ const Profile = () => {
       image: '',
     },
   });
+
+  useEffect(() => {
+    getUser()
+      .then((res) => setUserImg(res.user?.image));
+    reset({
+      image: userImg,
+    });
+  }, [userImg]);
 
   useEffect(() => {
     if (errors?.image) {
@@ -89,7 +99,7 @@ const Profile = () => {
       image,
     } = userData.user;
 
-    getEditUser(username, email, password, image, JSON.parse(user).token)
+    getEditUser(username, email, password, image)
       .then((res) => {
         if (res === 422) {
           setError('image', {

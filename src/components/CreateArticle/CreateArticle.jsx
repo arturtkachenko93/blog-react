@@ -109,13 +109,13 @@ const CreateArticle = () => {
     const { article } = articleData;
     article.tagList = article.tagList.map((tag) => (tag.tag));
     if (isEdit) {
-      getEditArticle(slug, articleData, JSON.parse(localStorage.auth).token)
+      getEditArticle(slug, articleData)
         .then((res) => {
           if (res) navigate('/');
         });
       return;
     }
-    createArticle(articleData, JSON.parse(localStorage.auth).token)
+    createArticle(articleData)
       .then(() => navigate('/'));
   };
 

@@ -22,7 +22,7 @@ const Articles = () => {
 
   useEffect(() => {
     setLoading(true);
-    getArticles(currentPage, JSON.parse(user)?.token)
+    getArticles(currentPage)
       .then((res) => {
         setData(res);
         setLoading(false);

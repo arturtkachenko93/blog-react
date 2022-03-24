@@ -1,16 +1,14 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Popconfirm, message } from 'antd';
 import { getDelArticle } from '../../api/api';
-import { AuthContext } from '../../hoc/AuthProvider';
 
 const Popup = ({ children }) => {
   const { slug } = useParams();
   const navigate = useNavigate();
-  const { user } = useContext(AuthContext);
 
   const confirm = () => {
-    getDelArticle(slug, JSON.parse(user).token)
+    getDelArticle(slug)
       .then(() => navigate('/'));
     message.success('Article delete :D');
   };
