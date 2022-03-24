@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -35,11 +35,21 @@ const Profile = () => {
             then: (rule) => rule.min(6, 'Password length should be at least 6 characters')
               .max(40, 'Password cannot exceed more than 40 characters'),
           }),
-        image: Yup.string()
-          .url('Input correct image URL')
-        ,
+        image: Yup
+          .string()
+          .nullable()
+          .notRequired()
+          .when('image', {
+            is: (value) => value?.length,
+            then: (rule) => rule
+              .url('Input correct image URL')
+              .matches(/\.(jpg|jpeg|png|webp|bmp|avif|gif|svg)$/, 'Input correct image URL'),
+          }),
       },
-      ['password', 'password'],
+      [
+        ['password', 'password'],
+        ['image', 'image'],
+      ],
     );
 
   const {
@@ -60,6 +70,15 @@ const Profile = () => {
     },
   });
 
+  useEffect(() => {
+    if (errors?.image) {
+      setError('image', {
+        type: 'server',
+        message: 'Input correct image URL',
+      });
+    }
+  }, [errors]);
+
   const registerNewUser = (data) => {
     const userData = {};
     userData.user = data;
@@ -72,6 +91,14 @@ const Profile = () => {
 
     getEditUser(username, email, password, image, JSON.parse(user).token)
       .then((res) => {
+        if (res === 422) {
+          setError('image', {
+            type: 'server',
+            message: 'Input correct image URL :D',
+          });
+
+          return;
+        }
         if (res.errors) {
           if (res.errors.username) {
             setError('username', {
@@ -167,12 +194,12 @@ const Profile = () => {
             <label htmlFor="image">
               Avatar image (url)
               <Controller
-                id="password"
                 name="image"
                 control={control}
                 render={({ field }) => (
                   <input
                     id="image"
+                    type="text"
                     className={[styles.input, isErrorClasses.imageError ? styles.error : ''].join('')}
                     placeholder="Avatar image"
                     {...field}

@@ -73,6 +73,7 @@ const Articles = () => {
       </ul>
       <Pagination
         className={styles.pagination}
+        pageSize={5}
         current={currentPage}
         onChange={changePage}
         total={data.articlesCount}

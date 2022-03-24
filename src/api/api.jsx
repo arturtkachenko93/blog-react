@@ -1,3 +1,5 @@
+import { isImage } from '../utils/utilits';
+
 const baseUrl = 'https://kata.academy:8021/api';
 
 const getArticles = async (page, token) => {
@@ -87,6 +89,12 @@ const getUser = async (token) => {
 
 const getEditUser = async (username, email, password, image, token) => {
   try {
+    const imageChecked = await isImage(image);
+    if (!imageChecked && image) {
+      const error = new Error();
+      error.code = 422;
+      throw error;
+    }
     const resolve = await fetch(`${baseUrl}/user`, {
       method: 'PUT',
       headers: {
@@ -105,6 +113,7 @@ const getEditUser = async (username, email, password, image, token) => {
     const json = await resolve.json();
     return json;
   } catch (err) {
+    if (err.code === 422) return err.code;
     throw new Error(err);
   }
 };
