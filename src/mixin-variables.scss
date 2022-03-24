@@ -70,7 +70,7 @@ $efreytorskij_zazor: 0.001px;
 }
 
 @mixin animation {
-  animation: fadeIn both 2s;
+  animation: fadeIn both 1s;
 
   @keyframes fadeIn {
     0% {

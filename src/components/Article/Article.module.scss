@@ -19,7 +19,7 @@
   }
 
   &:nth-child(odd) {
-    animation: showLeft 1s;
+    animation: showLeft 0.3s;
     @keyframes showLeft {
       from {
         left: -100%;
@@ -31,7 +31,7 @@
   }
 
   &:nth-child(even) {
-    animation: showRight 1s;
+    animation: showRight 0.3s;
     @keyframes showRight {
       from {
         right: -100%;
@@ -86,7 +86,7 @@
     &::before {
 
       background-image: url('Liked.svg');
-  
+
     }
   }
 }
